@@ -1,3 +1,18 @@
+# Bit Weather Services
+
+## Members
+
+ - Landen Heine
+ - Noel Onate
+ - Owen Graham
+ - Yajaira Melendez
+
+## UI Design
+
+UI_design.png
+
+## Milestones
+
 Deadlines for milestones every Saturday.
  - Planning & Pseudocode done (week 8)
  - Simple UI design done (week 9)
