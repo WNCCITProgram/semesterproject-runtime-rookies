@@ -9,7 +9,7 @@
 
 ## UI Design
 
-![alt_text(UI_design.png)]
+![Sketch of UI_design](UI_design.png)
 
 ## Milestones
 
