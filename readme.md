@@ -11,6 +11,10 @@
 
 ![Sketch of UI_design](UI_design.png)
 
+## Logo
+
+![Rough draft of logo](Logo.png)
+
 ## Milestones
 
 Deadlines for milestones every Saturday.
