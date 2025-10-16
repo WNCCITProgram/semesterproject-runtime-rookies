@@ -2,7 +2,7 @@
     Name: bit_weather_services_1.py
     Author: Runtime Rookies
     Created: 10/15/25
-    Purpose: Week 9 Milestone
+    Purpose: Week 9 Milestone 
 """
 
 from tkinter import *
