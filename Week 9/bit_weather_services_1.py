@@ -15,9 +15,10 @@ class WeatherApp():
         self.CONDITIONS = "Sunny"
         self.WIND_SPEED = 8
 
+        # initializes root
         self.root = Tk()
         self.root.title("Bit Weather Services")
-
+        
         self.root.resizable(False, False)
 
         self.create_widgets()
