@@ -50,18 +50,24 @@ class WeatherApp(Tk):
 
     def display_menu(self):
         # mf (MENU FRAME) for asking user to input data
-        self.mf = ttk.Frame(self, width=600, height=400)
+        self.mf = Frame(self, width=600, height=400, bg="lightgray")
+
+        # tf stands for title frame
+        self.tf = Frame(self.mf, width=600, height=200, bg="lightgray")
+
         # Image
-        self.logo_img = PhotoImage(file="logo.png")
+        self.logo_img = PhotoImage(file="dnalogo.png")
         # Top area
-        self.left_img = ttk.Label(self.mf, image=self.logo_img, width=40) # left image
-        self.right_img = ttk.Label(self.mf, image=self.logo_img) # right image
-        self.title_label = ttk.Label(self.mf, text=self.title_text) # title in the midle
-        self.seperator = ttk.Separator(self.mf, orient="horizontal") # seperator bar underneath
+        self.left_img = ttk.Label(self.tf, image=self.logo_img, width=40) # left image
+        self.right_img = ttk.Label(self.tf, image=self.logo_img) # right image
+        self.title_label = ttk.Label(self.tf, textvariable=self.title_text, 
+                                     background="lightgray", font="helpmepickafont 24", 
+                                     ) # title in the midle
+        self.seperator = ttk.Separator(self.mf, orient="horizontal", style="Horizontal.TSeparator") # seperator bar underneath
 
         # input labels
-        self.state_label = ttk.Label(self.mf, text=self.state_text) # label asking for state name
-        self.city_label = ttk.Label(self.mf, text=self.city_text) # label asking for city name
+        self.state_label = ttk.Label(self.mf, textvariable=self.state_text) # label asking for state name
+        self.city_label = ttk.Label(self.mf, textvariable=self.city_text) # label asking for city name
         # input entries
         self.state_input = ttk.Entry(self.mf, textvariable=self.state) # entry for state
         self.city_input = ttk.Entry(self.mf, textvariable=self.city) # entry for city
@@ -69,10 +75,24 @@ class WeatherApp(Tk):
         # go button
         self.get_weather_button = ttk.Button(self.mf, text=self.button_text, command=self.check_inputs)
 
-        self.left_img.grid(row=0, column=0, padx=8, pady=8, sticky="w")
+        # places iamges and title on the grid and seperator
+        self.left_img.grid(row=0, column=0, padx=40, pady=8, sticky="w")
         self.title_label.grid(row=0, column=1, padx=8, pady=8)
-        self.right_img.grid(row=0, column=2, padx=8, pady=8, sticky="e")
-        self.mf.pack()
+        self.right_img.grid(row=0, column=2, padx=40, pady=8, sticky="e")
+
+        # places title box and 
+        self.tf.grid(row=0, column=1)
+        self.tf.columnconfigure(0, weight=0)
+        self.tf.columnconfigure(1, weight=1)
+        self.tf.columnconfigure(2, weight=0)
+
+        self.seperator.grid(row=1, column=1, columnspan=3, sticky="n")
+
+
+        self.mf.pack(fill="both", expand=True)
+
+    
+
 
 
 if __name__ == "__main__":
