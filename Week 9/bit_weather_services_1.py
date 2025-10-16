@@ -10,8 +10,8 @@ from tkinter.ttk import *
 
 class WeatherApp():
 
-    def __init__(self):
-        self.TEMPERATURE = 74
+    def __init__(self): # function for the main window
+        self.TEMPERATURE = 74 # hard coded constants for now
         self.CONDITIONS = "Sunny"
         self.WIND_SPEED = 8
 
@@ -19,20 +19,20 @@ class WeatherApp():
         self.root = Tk()
         self.root.title("Bit Weather Services")
         
-        self.root.resizable(False, False)
+        self.root.resizable(False, False) # non resizable
 
-        self.create_widgets()
+        self.create_widgets() # call create widgets function
         mainloop()
 
-    def find_weather(self):
-        self.temperature_output.config(text=self.TEMPERATURE, anchor="e")
+    def find_weather(self): # function to get and display weather
+        self.temperature_output.config(text=self.TEMPERATURE, anchor="e") 
         self.conditions_output.config(text=self.CONDITIONS, anchor="e")
         self.wind_speed_output.config(text=self.WIND_SPEED, anchor="e")
 
-    def create_widgets(self):
+    def create_widgets(self): # functions for the widgets and layout of ui
         self.weather_output_frame = LabelFrame(self.root, relief=GROOVE)
 
-        self.area_name = Label(self.weather_output_frame, text="Weather in Scottsbluff, NE")
+        self.area_name = Label(self.weather_output_frame, text="Weather in Scottsbluff, NE") 
         self.lbl_temperature = Label(self.weather_output_frame, text="Temperature (°F): ")
         self.lbl_conditions = Label(self.weather_output_frame, text="Conditions: ")
         self.lbl_wind_speed = Label(self.weather_output_frame, text="Wind Speed (MPH): ")
