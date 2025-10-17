@@ -1,101 +1,114 @@
 """
-    Name: main.py
+    Name: bit_weather_services_1.py
     Author: Runtime Rookies
     Created: 10/15/25
     Purpose: Week 9 Milestone
 """
-
 from tkinter import *
 from tkinter import ttk
 
-class WeatherApp(Tk):
 
+class Bit_Weather_Services(Tk):
     def __init__(self):
         # initializes
-        super().__init__()
-        self.title("Bit Weather Services")
-        self.geometry("600x400")
-        self.resizable(False, False)
+        super().__init__() # calls __init__ function of the TK (parent) class
+        self.title("Bit Weather Services") # Sets window title
+        self.geometry("620x400") # sets window size
+        self.resizable(False, False) # makes wind not resizable
 
-        # Inputs
-        self.state = StringVar()
-        self.city = StringVar()
+        # Weather info
+        # These hold the text that will be displayed in the weather results
+        self.conditions_text = StringVar(value="It is ____") # text for weather conditions
+        self.temperature_text = StringVar(value="The temperature is ___") # text for temperature
+        self.wind_speed_text = StringVar(value="The wind is traveling ____") # text for wind speed
+
+        # Variables
+        # These will change depending on what the user puts in the entry fields
+        self.state = StringVar() # variable for state
+        self.city = StringVar() # variable for city
+        # will change depending on what the api returns
+        self.conditions = StringVar() # variable for weather conditions
+        self.temperature = StringVar() # variable for temperature
+        self.wind_speed = StringVar() # variable for wind speed
 
         # Labels
-        self.title_text = StringVar(value="Bit Weather Services")
-        self.state_text = StringVar(value="Enter State Name: ")
-        self.city_text = StringVar(value="Enter City Name: ")
-        self.button_text = StringVar(value="Get Weather")
+        # These honestly don't need to be StringVars, but they are for future proofing
+        self.state_text = StringVar(value="Enter State Name: ") # text for state label
+        self.city_text = StringVar(value="Enter City Name: ") # text for city label
+        self.weather_title_text = StringVar(value="Weather for") # text for title in weather frame
 
-    def check_inputs(self):
-        # Grabs the values from the entry boxes
-        state = self.state.get()
-        city = self.city.get()
-
-        inputs_valid = True
-
-        # Talks to the other class
-        if state and city:
-            if inputs_valid:
-                self.display_weather()
+        # Frames
+        self.wf = Frame(self, width=600, height=400, bg="grey") # (weather frame) frame to display weather results
+        self.mf = Frame(self, width=600, height=400, bg="grey") # (main frame) frame to display main menu
         
     def display_weather(self):
-        # wf (WEATHER FRAME) for showing weather
-        self.wf = ttk.Frame(self, width=600,height=400)
-
-    #def find_weather(self):
-    #    self.temperature_output.config(text=self.TEMPERATURE, anchor="e")
-    #    self.conditions_output.config(text=self.CONDITIONS, anchor="e")
-    #    self.wind_speed_output.config(text=self.WIND_SPEED, anchor="e")
+        self.mf.pack_forget() # unpacks main frame
+        self.wf.pack(fill="both", expand=True) # packs weather frame
 
     def display_menu(self):
-        # mf (MENU FRAME) for asking user to input data
-        self.mf = Frame(self, width=600, height=400, bg="lightgray")
+        self.wf.pack_forget() # unpacks weather frame
+        self.mf.pack(fill="both", expand=True) # packs main frame
 
-        # tf stands for title frame
-        self.tf = Frame(self.mf, width=600, height=200, bg="lightgray")
+    def check_inputs(self):
+        # Read Entries and store them as temporary variables
+        state = self.state.get() # stores text in state entry
+        city = self.city.get() # stores text in city entry
+        
+        # temporarily hardcoded to true till we add the api #TODO: add api (:
+        inputs_valid = True
 
-        # Image
-        self.logo_img = PhotoImage(file="dnalogo.png")
-        # Top area
-        self.left_img = ttk.Label(self.tf, image=self.logo_img, width=40) # left image
-        self.right_img = ttk.Label(self.tf, image=self.logo_img) # right image
-        self.title_label = ttk.Label(self.tf, textvariable=self.title_text, 
-                                     background="lightgray", font="helpmepickafont 24", 
-                                     ) # title in the midle
-        self.seperator = ttk.Separator(self.mf, orient="horizontal", style="Horizontal.TSeparator") # seperator bar underneath
+        # Title is the only value of all of the results we can update before adding the api
+        self.weather_title_text.set(f"Weather For {self.city.get()}") # updates value of the title to include the city
 
-        # input labels
-        self.state_label = ttk.Label(self.mf, textvariable=self.state_text) # label asking for state name
-        self.city_label = ttk.Label(self.mf, textvariable=self.city_text) # label asking for city name
-        # input entries
+        # if there is text in both city and state entries and input is 
+        # valid for the api it calls the class display_weather method
+        if city and state:
+            if inputs_valid:
+                self.display_weather() # displays weather results
+
+    def pack_frames(self):
+        ### MENU FRAME
+        # images
+        self.title_img = PhotoImage(file="semesterproject-runtime-rookies/title_image.png") # grabs image for the title in menu
+        self.cloud_img = PhotoImage(file="semesterproject-runtime-rookies/cloud.png") # grabs image for the button to get weather
+
+        # Widgets
+        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600) # label showing title
+        self.state_label = ttk.Label(self.mf, textvariable=self.state_text, font=("Brush Script MT", 24), background="grey") # label for state
+        self.city_label = ttk.Label(self.mf, textvariable=self.city_text, font=("Brush Script MT", 24), background="grey") # label for city
         self.state_input = ttk.Entry(self.mf, textvariable=self.state) # entry for state
         self.city_input = ttk.Entry(self.mf, textvariable=self.city) # entry for city
-
-        # go button
-        self.get_weather_button = ttk.Button(self.mf, text=self.button_text, command=self.check_inputs)
-
-        # places iamges and title on the grid and seperator
-        self.left_img.grid(row=0, column=0, padx=40, pady=8, sticky="w")
-        self.title_label.grid(row=0, column=1, padx=8, pady=8)
-        self.right_img.grid(row=0, column=2, padx=40, pady=8, sticky="e")
-
-        # places title box and 
-        self.tf.grid(row=0, column=1)
-        self.tf.columnconfigure(0, weight=0)
-        self.tf.columnconfigure(1, weight=1)
-        self.tf.columnconfigure(2, weight=0)
-
-        self.seperator.grid(row=1, column=1, columnspan=3, sticky="n")
+        self.get_weather_button = ttk.Button(self.mf, command=self.check_inputs, image=self.cloud_img) # button with cloud image to get weather
+        # Packing
+        self.menu_title.grid(row=0, column=0, columnspan=2, sticky="ew", padx=8, pady=5) # packs title
+        self.state_label.grid(row=1, column=0, sticky="s", padx=20, pady=(20, 0)) # packs state label
+        self.state_input.grid(row=2, column=0, sticky="ew", padx=20) # packs state entry
+        self.city_label.grid(row=1, column=1, sticky="s", padx=20, pady=(20, 0)) # packs city label
+        self.city_input.grid(row=2, column=1, sticky="ew", padx=20) # packs city entry
+        self.get_weather_button.grid(row=3, column=0, columnspan=2, pady=30, ipadx=5, ipady=5) # packs button to check weather
+        # Configuring
+        self.mf.columnconfigure(0, weight=1) # ensures both colums expand equally
+        self.mf.columnconfigure(1, weight=1) # they keep the text for the input labels nice
 
 
-        self.mf.pack(fill="both", expand=True)
-
-    
+        ### WEATHER FRAME
+        # Widgets
+        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Arial", 24)) # label for title
+        self.conditions_label = ttk.Label(self.wf, textvariable=self.conditions_text, font=("Arial", 18), background="grey") # label for conditions
+        self.temperature_label = ttk.Label(self.wf, textvariable=self.temperature_text, font=("Arial", 18), background="grey") # label for temperature
+        self.wind_speed_label = ttk.Label(self.wf, textvariable=self.wind_speed_text, font=("Arial", 18), background="grey") # label for wind speed
+        self.return_to_menu_button = ttk.Button(self.wf, text="Back", command=self.display_menu) # Button to return to the main menu
+        # Packing
+        self.return_to_menu_button.grid(row=0, column=0, padx=5, pady=5, sticky="nw") # packs button to return
+        self.weather_title.grid(row=0, column=1, pady=20) # packs title label
+        self.conditions_label.grid(row=1, column=1, pady=10) # packs conditions label
+        self.temperature_label.grid(row=2, column=1, pady=10) # packs temperature label
+        self.wind_speed_label.grid(row=3, column=1, pady=10) # packs wind speed label
 
 
 
 if __name__ == "__main__":
-    weather = WeatherApp()
-    weather.display_menu()
-    weather.mainloop()
+    weather = Bit_Weather_Services() # creats instance of class
+    weather.pack_frames() # packs frames (for the main and weather windows)
+    weather.display_menu() # display menu frame
+    weather.mainloop() # starts tkinters loop so it works
