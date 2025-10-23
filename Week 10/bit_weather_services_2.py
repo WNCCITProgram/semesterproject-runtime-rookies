@@ -10,7 +10,21 @@ from tkinter import *
 
 # Import themed widgets (modern styling) from tkinter.ttk
 from tkinter.ttk import *
+# import weather utils
+import weather_utils
+# pip install requests
+import requests
+# Import Openweather map api key and URL
+import weather_utils
+# pip install rich
+# Import Console for console printing
+from rich.console import Console
+# Import Panel for title displays
+from rich.panel import Panel
+# Initialize rich.console
 
+
+console = Console()
 # Define a class to represent the weather app
 class WeatherApp():
     # Constructor method that runs when the class is instantiated
@@ -36,11 +50,47 @@ class WeatherApp():
         mainloop()
 
     # Define a method to display weather data when the button is clicked
-    def find_weather(self):
-        # Update label with stored values
-        self.temperature_output.config(text=self.TEMPERATURE, anchor="e") 
-        self.conditions_output.config(text=self.CONDITIONS, anchor="e")
-        self.wind_speed_output.config(text=self.WIND_SPEED, anchor="e")
+    def get_weather(self):
+        """Get weather data from Openweathermap"""
+        try:
+            # Build the openweathermap request parameters
+            # These are added on to the URL to make the complete request
+            query_string = {
+                "units": "imperial",        # Units of measure ex: Fahrenheit
+                "q": self.location,         # Location for weather
+                "appid": weather_utils.API_KEY
+            }
+
+            # Get the API JSON data as a Python JSON object
+            response = requests.get(
+                weather_utils.URL,
+                params=query_string
+            )
+
+            # If the status_code is 200, successful connection and data
+            if response.status_code == 200:
+
+                # Get json response into a Python dictionary
+                self.weather_data = response.json()
+
+                # Let user know the connecction was successful
+                print("\n [+] Connection successful.")
+            else:
+                print(f" Response code: {response.status_code}")
+                print(" You may have typed an invalid location.")
+                print(" Please try again.")
+                self.get_location()
+
+
+            # Get weather items from dictionaries
+            self.description = self.weather_data.get(
+                "weather")[0].get("description").title()
+            self.temperature = self.weather_data.get("main").get("temp")
+            self.humidity = self.weather_data.get("main").get("humidity")
+        
+        except:
+            # Handle any exceptions
+            print("[-] Sorry, there was a problem connecting.")
 
     # Define a method to create and position all widgets in the window
     def create_widgets(self):
@@ -59,7 +109,7 @@ class WeatherApp():
         self.wind_speed_output = Label(self.weather_output_frame, width=10, relief=GROOVE)
 
         # Create a button that triggers the find_weather method
-        self.find_weather_btn = Button(self.root, text="Find Weather", command = self.find_weather)
+        self.find_weather_btn = Button(self.root, text="Find Weather", command = self.get_weather)
 
         # Position all static labels (titles) in the grid
         self.area_name.grid(row=0, column=0)
