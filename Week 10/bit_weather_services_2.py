@@ -82,7 +82,7 @@ class WeatherApp():
             self.temperature = self.weather_data.get("main").get("temp")
             self.conditions = self.weather_data.get("weather")[0].get("main")
             self.wind_speed = self.weather_data.get("wind").get("speed")
-
+            # Configuring outputs to show data
             self.temperature_output.config(text=self.temperature)
             self.conditions_output.config(text=self.conditions)
             self.wind_speed_output.config(text=self.wind_speed)
@@ -96,11 +96,11 @@ class WeatherApp():
         # Create labeled frames to hold weather info
         self.weather_output_frame = LabelFrame(self.root, relief=GROOVE)
         self.weather_input_frame = LabelFrame(self.root, relief=GROOVE)
-
+        # Create labels for user input
         self.lbl_town = Label(self.weather_input_frame, text="Enter Town: ", relief=GROOVE)
         self.lbl_state = Label(self.weather_input_frame, text="Enter State: ", relief=GROOVE)
         self.lbl_country = Label(self.weather_input_frame, text="Enter Country: ", relief=GROOVE)
-
+        # Create single line text input for user
         self.input_town = Entry(self.weather_input_frame, width=10)
         self.input_state = Entry(self.weather_input_frame, width=10)
         self.input_country = Entry(self.weather_input_frame, width=10)
@@ -117,11 +117,11 @@ class WeatherApp():
 
         # Create a button that triggers the find_weather method
         self.find_weather_btn = Button(self.root, text="Find Weather", command = self.get_weather)
-
+        # Place town, state, country labels
         self.lbl_town.grid(row=0, column=0)
         self.lbl_state.grid(row=1, column=0)
         self.lbl_country.grid(row=2, column=0)
-
+        # Place town, state, country input boxes
         self.input_town.grid(row=0, column=1)
         self.input_state.grid(row=1, column=1)
         self.input_country.grid(row=2, column=1)
