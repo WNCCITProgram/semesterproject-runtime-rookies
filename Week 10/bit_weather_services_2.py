@@ -35,7 +35,7 @@ class WeatherApp():
 
         # Start the main event loop to keep the window open
         mainloop()
-
+    # Get location for weather info
     def get_location(self):
         self.town = self.input_town.get()
         self.state = self.input_state.get()
