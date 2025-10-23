@@ -21,11 +21,6 @@ import weather_utils
 class WeatherApp():
     # Constructor method that runs when the class is instantiated
     def __init__(self):
-        # Set default weather data values
-        self.TEMPERATURE = 74 # hard coded constants for now
-        self.CONDITIONS = "Sunny"
-        self.WIND_SPEED = 8
-
         # Create the main window for the application
         self.root = Tk()
 
@@ -42,12 +37,18 @@ class WeatherApp():
         mainloop()
 
     def get_location(self):
-        print("")
+        self.town = self.input_town.get()
+        self.state = self.input_state.get()
+        self.country = self.input_country.get()
+
+        self.location = f"{self.town}, {self.state}, {self.country}"
 
     # Define a method to display weather data when the button is clicked
     def get_weather(self):
         """Get weather data from Openweathermap"""
         try:
+            self.get_location()
+            
             # Build the openweathermap request parameters
             # These are added on to the URL to make the complete request
             query_string = {
@@ -68,7 +69,7 @@ class WeatherApp():
                 # Get json response into a Python dictionary
                 self.weather_data = response.json()
 
-                # Let user know the connecction was successful
+                # Let user know the connection was successful
                 print("\n [+] Connection successful.")
             else:
                 print(f" Response code: {response.status_code}")
@@ -78,10 +79,13 @@ class WeatherApp():
 
 
             # Get weather items from dictionaries
-            self.description = self.weather_data.get(
-                "weather")[0].get("description").title()
             self.temperature = self.weather_data.get("main").get("temp")
-            self.humidity = self.weather_data.get("main").get("humidity")
+            self.conditions = self.weather_data.get("weather")[0].get("main")
+            self.wind_speed = self.weather_data.get("wind").get("speed")
+
+            self.temperature_output.config(text=self.temperature)
+            self.conditions_output.config(text=self.conditions)
+            self.wind_speed_output.config(text=self.wind_speed)
         
         except:
             # Handle any exceptions
@@ -101,8 +105,7 @@ class WeatherApp():
         self.input_state = Entry(self.weather_input_frame, width=10)
         self.input_country = Entry(self.weather_input_frame, width=10)
 
-        # Create labels for location and weather info
-        self.area_name = Label(self.weather_output_frame, text="Weather in Scottsbluff, NE", relief=GROOVE) 
+        # Create labels for location and weather info 
         self.lbl_temperature = Label(self.weather_output_frame, text="Temperature (°F): ", relief=GROOVE)
         self.lbl_conditions = Label(self.weather_output_frame, text="Conditions: ", relief=GROOVE)
         self.lbl_wind_speed = Label(self.weather_output_frame, text="Wind Speed (MPH): ", relief=GROOVE)
@@ -124,15 +127,14 @@ class WeatherApp():
         self.input_country.grid(row=2, column=1)
 
         # Position all static labels (titles) in the grid
-        self.area_name.grid(row=0, column=0)
-        self.lbl_temperature.grid(row=1, column=0)
-        self.lbl_conditions.grid(row=2, column=0)
-        self.lbl_wind_speed.grid(row=3, column=0)
+        self.lbl_temperature.grid(row=0, column=0)
+        self.lbl_conditions.grid(row=1, column=0)
+        self.lbl_wind_speed.grid(row=2, column=0)
 
         # Position all output labels next to their corresponding text labels
-        self.temperature_output.grid(row=1, column=1)
-        self.conditions_output.grid(row=2, column=1)
-        self.wind_speed_output.grid(row=3, column=1)
+        self.temperature_output.grid(row=0, column=1)
+        self.conditions_output.grid(row=1, column=1)
+        self.wind_speed_output.grid(row=2, column=1)
 
         # Place the frames on the main window
         self.weather_input_frame.grid(row=0, column=0)
