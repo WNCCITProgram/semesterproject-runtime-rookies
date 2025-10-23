@@ -10,21 +10,13 @@ from tkinter import *
 
 # Import themed widgets (modern styling) from tkinter.ttk
 from tkinter.ttk import *
-# import weather utils
-import weather_utils
+
 # pip install requests
 import requests
+
 # Import Openweather map api key and URL
 import weather_utils
-# pip install rich
-# Import Console for console printing
-from rich.console import Console
-# Import Panel for title displays
-from rich.panel import Panel
-# Initialize rich.console
 
-
-console = Console()
 # Define a class to represent the weather app
 class WeatherApp():
     # Constructor method that runs when the class is instantiated
@@ -48,6 +40,9 @@ class WeatherApp():
 
         # Start the main event loop to keep the window open
         mainloop()
+
+    def get_location(self):
+        print("")
 
     # Define a method to display weather data when the button is clicked
     def get_weather(self):
@@ -94,14 +89,23 @@ class WeatherApp():
 
     # Define a method to create and position all widgets in the window
     def create_widgets(self):
-        # Create a labeled frame to hold weather info
+        # Create labeled frames to hold weather info
         self.weather_output_frame = LabelFrame(self.root, relief=GROOVE)
+        self.weather_input_frame = LabelFrame(self.root, relief=GROOVE)
+
+        self.lbl_town = Label(self.weather_input_frame, text="Enter Town: ", relief=GROOVE)
+        self.lbl_state = Label(self.weather_input_frame, text="Enter State: ", relief=GROOVE)
+        self.lbl_country = Label(self.weather_input_frame, text="Enter Country: ", relief=GROOVE)
+
+        self.input_town = Entry(self.weather_input_frame, width=10)
+        self.input_state = Entry(self.weather_input_frame, width=10)
+        self.input_country = Entry(self.weather_input_frame, width=10)
 
         # Create labels for location and weather info
-        self.area_name = Label(self.weather_output_frame, text="Weather in Scottsbluff, NE") 
-        self.lbl_temperature = Label(self.weather_output_frame, text="Temperature (°F): ")
-        self.lbl_conditions = Label(self.weather_output_frame, text="Conditions: ")
-        self.lbl_wind_speed = Label(self.weather_output_frame, text="Wind Speed (MPH): ")
+        self.area_name = Label(self.weather_output_frame, text="Weather in Scottsbluff, NE", relief=GROOVE) 
+        self.lbl_temperature = Label(self.weather_output_frame, text="Temperature (°F): ", relief=GROOVE)
+        self.lbl_conditions = Label(self.weather_output_frame, text="Conditions: ", relief=GROOVE)
+        self.lbl_wind_speed = Label(self.weather_output_frame, text="Wind Speed (MPH): ", relief=GROOVE)
 
         # Create empty labels to display weather data output
         self.temperature_output = Label(self.weather_output_frame, width=10, relief=GROOVE)
@@ -110,6 +114,14 @@ class WeatherApp():
 
         # Create a button that triggers the find_weather method
         self.find_weather_btn = Button(self.root, text="Find Weather", command = self.get_weather)
+
+        self.lbl_town.grid(row=0, column=0)
+        self.lbl_state.grid(row=1, column=0)
+        self.lbl_country.grid(row=2, column=0)
+
+        self.input_town.grid(row=0, column=1)
+        self.input_state.grid(row=1, column=1)
+        self.input_country.grid(row=2, column=1)
 
         # Position all static labels (titles) in the grid
         self.area_name.grid(row=0, column=0)
@@ -122,17 +134,22 @@ class WeatherApp():
         self.conditions_output.grid(row=2, column=1)
         self.wind_speed_output.grid(row=3, column=1)
 
-        # Place the weather output frame on the main window
-        self.weather_output_frame.grid(row=0, column=0)
+        # Place the frames on the main window
+        self.weather_input_frame.grid(row=0, column=0)
+        self.weather_output_frame.grid(row=1, column=0)
 
         # Place the "Find Weather" button below the frame
-        self.find_weather_btn.grid(row=1, column=0)
+        self.find_weather_btn.grid(row=2, column=0)
 
         # Add padding around the frame and button for spacing
+        self.weather_input_frame.grid_configure(padx=20, pady=20)
         self.weather_output_frame.grid_configure(padx=20, pady=20)
         self.find_weather_btn.grid_configure(padx=20, pady=20)
 
         # Add internal spacing between all child widgets inside the frame
+        for widget in self.weather_input_frame.winfo_children():
+            widget.grid_configure(padx=5, pady=5)
+
         for widget in self.weather_output_frame.winfo_children():
             widget.grid_configure(padx=5, pady=5)
 
