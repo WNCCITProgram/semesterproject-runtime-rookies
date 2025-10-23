@@ -69,8 +69,8 @@ class Bit_Weather_Services(Tk):
     def pack_frames(self):
         ### MENU FRAME
         # images
-        self.title_img = PhotoImage(file="semesterproject-runtime-rookies/title_image.png") # grabs image for the title in menu
-        self.cloud_img = PhotoImage(file="semesterproject-runtime-rookies/cloud.png") # grabs image for the button to get weather
+        self.title_img = PhotoImage(file="title_image.png") # grabs image for the title in menu
+        self.cloud_img = PhotoImage(file="cloud.png") # grabs image for the button to get weather
 
         # Widgets
         self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600) # label showing title
