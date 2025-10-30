@@ -6,7 +6,7 @@
 """
 from tkinter import *
 from tkinter import ttk
-import weather_utils, requests, json
+import weather_utils, requests
 
 
 class GetWeather():
@@ -123,10 +123,7 @@ class BitWeatherServices(Tk):
             self.conditions_text.set(f"It is {conditions}") # updates text for weather conditions
             self.temperature_text.set(f"The temperature is {temperature}") # updates text for temperature
             self.wind_speed_text.set(f"The wind is traveling {wind_speed}") # updates text for wind speed
-            print(self.temperature_text.get())
         
-
-
             self.display_weather() # displays weather results
 
     def pack_frames(self):
