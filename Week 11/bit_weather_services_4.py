@@ -6,63 +6,7 @@
 """
 from tkinter import *
 from tkinter import ttk
-import weather_utils, requests
-
-
-class GetWeather():
-    def __init__(self, city, state):
-        self.city = city
-        self.state = state
-        self.weather_data = None
-    
-    def set_location(self, city, state):
-        self.city = city
-        self.state = state
-    
-    def get_location(self):
-        return f"{self.city}, {self.state}"
-    
-    def get_weather_data(self):
-        try:
-
-            # Build the openweathermap request parameters
-            # These are added on to the URL to make the complete request
-            query_string = {
-                "units": "imperial",        # Units of measure ex: Fahrenheit
-                "q": self.get_location(),         # Location for weather
-                "appid": weather_utils.API_KEY
-            }
-
-            # Get the API JSON data as a Python JSON object
-            response = requests.get(
-                weather_utils.URL,
-                params=query_string
-            )
-            
-            # If the status_code is 200, successful connection and data
-            if response.status_code == 200:
-
-                # Get json response into a Python dictionary
-                self.weather_data = response.json()
-
-                # Let user know the connection was successful
-                print("\n [+] Connection successful.")
-            else:
-                print(f" Response code: {response.status_code}")
-                print(" You may have typed an invalid location.")
-                print(" Please try again.")
-
-
-            # Get weather items from dictionaries
-            self.temperature = self.weather_data.get("main").get("temp")
-            self.conditions = self.weather_data.get("weather")[0].get("main")
-            self.wind_speed = self.weather_data.get("wind").get("speed")
-
-        except:
-            # Handle any exceptions
-            print("[-] Sorry, there was a problem connecting.")
-            self.weather_data = None
-
+from weather_utils import GetWeather
 
 class BitWeatherServices(Tk):
     def __init__(self):
