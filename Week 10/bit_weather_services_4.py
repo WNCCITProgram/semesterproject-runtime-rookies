@@ -6,9 +6,65 @@
 """
 from tkinter import *
 from tkinter import ttk
+import weather_utils, requests, json
 
 
-class Bit_Weather_Services(Tk):
+class GetWeather():
+    def __init__(self, city, state):
+        self.city = city
+        self.state = state
+        self.weather_data = None
+    
+    def set_location(self, city, state):
+        self.city = city
+        self.state = state
+    
+    def get_location(self):
+        return f"{self.city}, {self.state}"
+    
+    def get_weather_data(self):
+        try:
+
+            # Build the openweathermap request parameters
+            # These are added on to the URL to make the complete request
+            query_string = {
+                "units": "imperial",        # Units of measure ex: Fahrenheit
+                "q": self.get_location(),         # Location for weather
+                "appid": weather_utils.API_KEY
+            }
+
+            # Get the API JSON data as a Python JSON object
+            response = requests.get(
+                weather_utils.URL,
+                params=query_string
+            )
+            
+            # If the status_code is 200, successful connection and data
+            if response.status_code == 200:
+
+                # Get json response into a Python dictionary
+                self.weather_data = response.json()
+
+                # Let user know the connection was successful
+                print("\n [+] Connection successful.")
+            else:
+                print(f" Response code: {response.status_code}")
+                print(" You may have typed an invalid location.")
+                print(" Please try again.")
+
+
+            # Get weather items from dictionaries
+            self.temperature = self.weather_data.get("main").get("temp")
+            self.conditions = self.weather_data.get("weather")[0].get("main")
+            self.wind_speed = self.weather_data.get("wind").get("speed")
+
+        except:
+            # Handle any exceptions
+            print("[-] Sorry, there was a problem connecting.")
+            self.weather_data = None
+
+
+class BitWeatherServices(Tk):
     def __init__(self):
         # initializes
         super().__init__() # calls __init__ function of the TK (parent) class
@@ -16,21 +72,18 @@ class Bit_Weather_Services(Tk):
         self.geometry("620x400") # sets window size
         self.resizable(False, False) # makes wind not resizable
 
-        # Weather info
-        # These hold the text that will be displayed in the weather results
-        self.conditions_text = StringVar(value="It is ____") # text for weather conditions
-        self.temperature_text = StringVar(value="The temperature is ___") # text for temperature
-        self.wind_speed_text = StringVar(value="The wind is traveling ____") # text for wind speed
 
         # Variables
         # These will change depending on what the user puts in the entry fields
         self.state = StringVar() # variable for state
         self.city = StringVar() # variable for city
-        # will change depending on what the api returns
-        self.conditions = StringVar() # variable for weather conditions
-        self.temperature = StringVar() # variable for temperature
-        self.wind_speed = StringVar() # variable for wind speed
 
+        # Weather info
+        # These hold the text that will be displayed in the weather results
+        self.conditions_text = StringVar(value="It is ___") # text for weather conditions
+        self.temperature_text = StringVar(value="The temperature is ___") # text for temperature
+        self.wind_speed_text = StringVar(value="The wind is traveling ___") # text for wind speed
+        
         # Labels
         # These honestly don't need to be StringVars, but they are for future proofing
         self.state_text = StringVar(value="Enter State Name: ") # text for state label
@@ -51,20 +104,30 @@ class Bit_Weather_Services(Tk):
 
     def check_inputs(self):
         # Read Entries and store them as temporary variables
-        state = self.state.get() # stores text in state entry
         city = self.city.get() # stores text in city entry
+        state = self.state.get() # stores text in state entry
         
         # temporarily hardcoded to true till we add the api #TODO: add api (:
-        inputs_valid = True
+        api_handler = GetWeather(city, state)
+        api_handler.get_weather_data()
 
-        # Title is the only value of all of the results we can update before adding the api
-        self.weather_title_text.set(f"Weather For {self.city.get()}") # updates value of the title to include the city
+        # Only runs if api_handler actually gets data
+        # Add an else here to show if user did something wrong
+        if api_handler.weather_data != None:
+            conditions = api_handler.conditions
+            temperature = api_handler.temperature
+            wind_speed = api_handler.wind_speed
 
-        # if there is text in both city and state entries and input is 
-        # valid for the api it calls the class display_weather method
-        if city and state:
-            if inputs_valid:
-                self.display_weather() # displays weather results
+            # Title is the only value of all of the results we can update before adding the api
+            self.weather_title_text.set(f"Weather For {city}") # updates value of the title to include the city
+            self.conditions_text.set(f"It is {conditions}") # updates text for weather conditions
+            self.temperature_text.set(f"The temperature is {temperature}") # updates text for temperature
+            self.wind_speed_text.set(f"The wind is traveling {wind_speed}") # updates text for wind speed
+            print(self.temperature_text.get())
+        
+
+
+            self.display_weather() # displays weather results
 
     def pack_frames(self):
         ### MENU FRAME
@@ -108,7 +171,7 @@ class Bit_Weather_Services(Tk):
 
 
 if __name__ == "__main__":
-    weather = Bit_Weather_Services() # creats instance of class
+    weather = BitWeatherServices() # creats instance of class
     weather.pack_frames() # packs frames (for the main and weather windows)
     weather.display_menu() # display menu frame
     weather.mainloop() # starts tkinters loop so it works
