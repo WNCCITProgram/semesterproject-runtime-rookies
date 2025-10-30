@@ -13,7 +13,7 @@ class BitWeatherServices(Tk):
         # initializes
         super().__init__() # calls __init__ function of the TK (parent) class
         self.title("Bit Weather Services") # Sets window title
-        self.geometry("620x400") # sets window size
+        self.geometry("873x800") # sets window size
         self.resizable(False, False) # makes wind not resizable
 
 
@@ -73,11 +73,11 @@ class BitWeatherServices(Tk):
     def pack_frames(self):
         ### MENU FRAME
         # images
-        self.title_img = PhotoImage(file="images/title_image.png") # grabs image for the title in menu
-        self.cloud_img = PhotoImage(file="images/cloud.png") # grabs image for the button to get weather
+        self.title_img = PhotoImage(file="images/title.png") # grabs image for the title in menu
+        self.cloud_img = PhotoImage(file="images/weather_button.png") # grabs image for the button to get weather
 
         # Widgets
-        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600) # label showing title
+        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600, background="grey") # label showing title
         self.state_label = ttk.Label(self.mf, textvariable=self.state_text, font=("Brush Script MT", 24), background="grey") # label for state
         self.city_label = ttk.Label(self.mf, textvariable=self.city_text, font=("Brush Script MT", 24), background="grey") # label for city
         self.state_input = ttk.Entry(self.mf, textvariable=self.state) # entry for state
