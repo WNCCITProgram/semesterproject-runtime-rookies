@@ -75,6 +75,7 @@ class BitWeatherServices(Tk):
         # images
         self.title_img = PhotoImage(file="images/title.png") # grabs image for the title in menu
         self.cloud_img = PhotoImage(file="images/weather_button.png") # grabs image for the button to get weather
+        self.wind_img = PhotoImage(file="images/wind.png") # grabs image for the wind
 
         # Widgets
         self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600, background="grey") # label showing title
@@ -83,6 +84,7 @@ class BitWeatherServices(Tk):
         self.state_input = ttk.Entry(self.mf, textvariable=self.state) # entry for state
         self.city_input = ttk.Entry(self.mf, textvariable=self.city) # entry for city
         self.get_weather_button = ttk.Button(self.mf, command=self.check_inputs, image=self.cloud_img) # button with cloud image to get weather
+        self.wind = ttk.Label(self.mf, image=self.wind_img, background="grey") # label with wind pointing towards the button
         # Packing
         self.menu_title.grid(row=0, column=0, columnspan=2, sticky="ew", padx=8, pady=5) # packs title
         self.state_label.grid(row=1, column=0, sticky="s", padx=20, pady=(20, 0)) # packs state label
@@ -90,6 +92,7 @@ class BitWeatherServices(Tk):
         self.city_label.grid(row=1, column=1, sticky="s", padx=20, pady=(20, 0)) # packs city label
         self.city_input.grid(row=2, column=1, sticky="ew", padx=20) # packs city entry
         self.get_weather_button.grid(row=3, column=0, columnspan=2, pady=30, ipadx=5, ipady=5) # packs button to check weather
+        #self.wind.grid(row=4, column=2, columnspan=2, sticky="w", padx=10) # packs wind image
         # Configuring
         self.mf.columnconfigure(0, weight=1) # ensures both colums expand equally
         self.mf.columnconfigure(1, weight=1) # they keep the text for the input labels nice
