@@ -1,8 +1,8 @@
 """
-    Name: bit_weather_services_1.py
+    Name: bit_weather_services_4.py
     Author: Runtime Rookies
     Created: 10/15/25
-    Purpose: Week 9 Milestone
+    Purpose: Week 12 Milestone
 """
 from tkinter import *
 from tkinter import ttk
@@ -94,20 +94,20 @@ class BitWeatherServices(Tk):
         self.get_weather_button.grid(row=3, column=0, columnspan=2, pady=30, ipadx=5, ipady=5) # packs button to check weather
         #self.wind.grid(row=4, column=2, columnspan=2, sticky="w", padx=10) # packs wind image
         # Configuring
-        self.mf.columnconfigure(0, weight=1) # ensures both colums expand equally
+        self.mf.columnconfigure(0, weight=1) # ensures both columns expand equally
         self.mf.columnconfigure(1, weight=1) # they keep the text for the input labels nice
 
 
         ### WEATHER FRAME
         # Widgets
-        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Arial", 24)) # label for title
+        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Arial", 60)) # label for title
         self.conditions_label = ttk.Label(self.wf, textvariable=self.conditions_text, font=("Arial", 18), background="grey") # label for conditions
         self.temperature_label = ttk.Label(self.wf, textvariable=self.temperature_text, font=("Arial", 18), background="grey") # label for temperature
         self.wind_speed_label = ttk.Label(self.wf, textvariable=self.wind_speed_text, font=("Arial", 18), background="grey") # label for wind speed
         self.return_to_menu_button = ttk.Button(self.wf, text="Back", command=self.display_menu) # Button to return to the main menu
         # Packing
         self.return_to_menu_button.grid(row=0, column=0, padx=5, pady=5, sticky="nw") # packs button to return
-        self.weather_title.grid(row=0, column=1, pady=20) # packs title label
+        self.weather_title.grid(row=0, column=1, pady=20, sticky="n") # packs title label
         self.conditions_label.grid(row=1, column=1, pady=10) # packs conditions label
         self.temperature_label.grid(row=2, column=1, pady=10) # packs temperature label
         self.wind_speed_label.grid(row=3, column=1, pady=10) # packs wind speed label
@@ -115,7 +115,7 @@ class BitWeatherServices(Tk):
 
 
 if __name__ == "__main__":
-    weather = BitWeatherServices() # creats instance of class
+    weather = BitWeatherServices() # creates instance of class
     weather.pack_frames() # packs frames (for the main and weather windows)
     weather.display_menu() # display menu frame
     weather.mainloop() # starts tkinters loop so it works
