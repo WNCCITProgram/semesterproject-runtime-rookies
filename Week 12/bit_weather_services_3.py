@@ -16,11 +16,13 @@ class BitWeatherServices(Tk):
         self.geometry("873x475") # sets window size
         self.resizable(False, False) # makes wind not resizable
 
-
         # Variables
         # These will change depending on what the user puts in the entry fields
         self.state = StringVar() # variable for state
         self.city = StringVar() # variable for city
+
+        # These are constant
+        BG_COLOR = "lightcyan"
 
         # Weather info
         # These hold the text that will be displayed in the weather results
@@ -35,8 +37,8 @@ class BitWeatherServices(Tk):
         self.weather_title_text = StringVar(value="Weather for") # text for title in weather frame
 
         # Frames
-        self.wf = Frame(self, width=600, height=400, bg="grey") # (weather frame) frame to display weather results
-        self.mf = Frame(self, width=600, height=400, bg="grey") # (main frame) frame to display main menu
+        self.wf = Frame(self, width=600, height=400, bg=BG_COLOR) # (weather frame) frame to display weather results
+        self.mf = Frame(self, width=600, height=400, bg=BG_COLOR) # (main frame) frame to display main menu
         
     def display_weather(self):
         self.mf.pack_forget() # unpacks main frame
@@ -78,9 +80,9 @@ class BitWeatherServices(Tk):
         self.wind_img = PhotoImage(file="images/wind.png") # grabs image for the wind
 
         # Widgets
-        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600, background="grey") # label showing title
-        self.state_label = ttk.Label(self.mf, textvariable=self.state_text, font=("Brush Script MT", 24), background="grey") # label for state
-        self.city_label = ttk.Label(self.mf, textvariable=self.city_text, font=("Brush Script MT", 24), background="grey") # label for city
+        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600, background="gray") # label showing title
+        self.state_label = ttk.Label(self.mf, textvariable=self.state_text, font=("Brush Script MT", 24), background="gray") # label for state
+        self.city_label = ttk.Label(self.mf, textvariable=self.city_text, font=("Brush Script MT", 24), background="gray") # label for city
         self.state_input = ttk.Entry(self.mf, textvariable=self.state) # entry for state
         self.city_input = ttk.Entry(self.mf, textvariable=self.city) # entry for city
         self.get_weather_button = ttk.Button(self.mf, command=self.check_inputs, image=self.cloud_img) # button with cloud image to get weather
@@ -98,11 +100,11 @@ class BitWeatherServices(Tk):
 
         ### WEATHER FRAME
         # Widgets
-        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Brush Script MT", 60), background="grey") # label for title
-        self.conditions_label = ttk.Label(self.wf, textvariable=self.conditions_text, font=("Brush Script MT", 36), background="grey") # label for conditions
-        self.temperature_label = ttk.Label(self.wf, textvariable=self.temperature_text, font=("Brush Script MT", 36), background="grey") # label for temperature
-        self.wind_speed_label = ttk.Label(self.wf, textvariable=self.wind_speed_text, font=("Brush Script MT", 36), background="grey") # label for wind speed
-        self.wind = ttk.Label(self.wf, image=self.wind_img, background="grey") # label with wind image
+        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Brush Script MT", 60), background="gray") # label for title
+        self.conditions_label = ttk.Label(self.wf, textvariable=self.conditions_text, font=("Brush Script MT", 36), background="gray") # label for conditions
+        self.temperature_label = ttk.Label(self.wf, textvariable=self.temperature_text, font=("Brush Script MT", 36), background="gray") # label for temperature
+        self.wind_speed_label = ttk.Label(self.wf, textvariable=self.wind_speed_text, font=("Brush Script MT", 36), background="gray") # label for wind speed
+        self.wind = ttk.Label(self.wf, image=self.wind_img, background="gray") # label with wind image
         self.return_to_menu_button = ttk.Button(self.wf, text="Back", width=12, command=self.display_menu) # Button to return to the main menu
         # Packing
         self.return_to_menu_button.grid(row=0, column=0, padx=10, pady=10, sticky="nw") # packs button to return
@@ -110,7 +112,7 @@ class BitWeatherServices(Tk):
         self.conditions_label.grid(row=2, column=1, padx=10, pady=10) # packs conditions label
         self.temperature_label.grid(row=3, column=1, padx=10, pady=10) # packs temperature label
         self.wind_speed_label.grid(row=4, column=1, padx=10, pady=10) # packs wind speed label
-        self.wind.grid(row=5, column=1, sticky="n", padx=10, pady=10) # packs wind image
+        self.wind.grid(row=4, column=0, sticky="e", padx=10, pady=10) # packs wind image
 
 
 
