@@ -98,7 +98,7 @@ class BitWeatherServices(Tk):
 
         ### WEATHER FRAME
         # Widgets
-        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Brush Script MT", 60)) # label for title
+        self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Brush Script MT", 60), background="grey") # label for title
         self.conditions_label = ttk.Label(self.wf, textvariable=self.conditions_text, font=("Brush Script MT", 36), background="grey") # label for conditions
         self.temperature_label = ttk.Label(self.wf, textvariable=self.temperature_text, font=("Brush Script MT", 36), background="grey") # label for temperature
         self.wind_speed_label = ttk.Label(self.wf, textvariable=self.wind_speed_text, font=("Brush Script MT", 36), background="grey") # label for wind speed
