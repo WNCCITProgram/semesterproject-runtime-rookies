@@ -23,6 +23,7 @@ class BitWeatherServices(Tk):
 
         # These are constant
         BG_COLOR = "lightcyan"
+        ERROR_BG_COLOR = "red"
 
         # Weather info
         # These hold the text that will be displayed in the weather results
@@ -31,7 +32,7 @@ class BitWeatherServices(Tk):
         self.wind_speed_text = StringVar(value="The wind is traveling ___") # text for wind speed
         
         # Labels
-        # These honestly don't need to be StringVars, but they are for future proofing
+        # These don't need to be StringVars, but they are for future proofing
         self.state_text = StringVar(value="Enter State Name: ") # text for state label
         self.city_text = StringVar(value="Enter City Name: ") # text for city label
         self.weather_title_text = StringVar(value="Weather for") # text for title in weather frame
@@ -39,6 +40,7 @@ class BitWeatherServices(Tk):
         # Frames
         self.wf = Frame(self, width=600, height=400, bg=BG_COLOR) # (weather frame) frame to display weather results
         self.mf = Frame(self, width=600, height=400, bg=BG_COLOR) # (main frame) frame to display main menu
+        self.ef = Frame(self, width=600, height=400, bg=ERROR_BG_COLOR) # (error frame) frame to display error screen
         
     def display_weather(self):
         self.mf.pack_forget() # unpacks main frame
@@ -48,12 +50,26 @@ class BitWeatherServices(Tk):
         self.wf.pack_forget() # unpacks weather frame
         self.mf.pack(fill="both", expand=True) # packs main frame
 
+    def display_error(self):
+        self.mf.pack_forget() # unpacks main frame
+        self.ef.pack(fill="both", expand=True) # packs error frame
+    
+    def error_display_menu(self):
+        self.ef.pack_forget() # unpacks error frame
+        self.mf.pack(fill="both", expand=True) # packs main frame
+
     def check_inputs(self):
         # Read Entries and store them as temporary variables
         city = self.city.get() # stores text in city entry
         state = self.state.get() # stores text in state entry
+
+        # Check to make sure user did not leave the state or city blank
+        if (city == "" or state == ""):
+            # Send user to error screen if they did
+            self.display_error()
+            return
         
-        # temporarily hardcoded to true till we add the api #TODO: add api (:
+        # Use api to get the weather
         api_handler = GetWeather(city, state)
         api_handler.get_weather_data()
 
@@ -71,6 +87,8 @@ class BitWeatherServices(Tk):
             self.wind_speed_text.set(f"The wind is traveling {wind_speed} MPH") # updates text for wind speed
         
             self.display_weather() # displays weather results
+        else:
+            self.display_error() # send user to error screen
 
     def pack_frames(self):
         ### MENU FRAME
@@ -97,7 +115,6 @@ class BitWeatherServices(Tk):
         self.mf.columnconfigure(0, weight=1) # ensures both columns expand equally
         self.mf.columnconfigure(1, weight=1) # they keep the text for the input labels nice
 
-
         ### WEATHER FRAME
         # Widgets
         self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Brush Script MT", 60), background="gray") # label for title
@@ -113,6 +130,14 @@ class BitWeatherServices(Tk):
         self.temperature_label.grid(row=3, column=1, padx=10, pady=10) # packs temperature label
         self.wind_speed_label.grid(row=4, column=1, padx=10, pady=10) # packs wind speed label
         self.wind.grid(row=4, column=0, sticky="e", padx=10, pady=10) # packs wind image
+
+        ### ERROR FRAME
+        # Widgets
+        self.error_text = ttk.Label(self.ef, text="ERROR! PLEASE ENTER A\nVALID CITY AND/OR STATE!", font=("Impact", 60)) # label for error message
+        self.error_to_menu_button = ttk.Button(self.ef, text="Back", width=12, command=self.error_display_menu) # Button to return to the main menu
+        # Packing
+        self.error_text.grid(row=0, column=0, padx=10, pady=10) # packs error message label
+        self.error_to_menu_button.grid(row=1, column=0, padx=10, pady=10) # packs button to return to menu
 
 
 
