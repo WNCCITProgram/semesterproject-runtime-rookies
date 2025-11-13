@@ -133,7 +133,7 @@ class BitWeatherServices(Tk):
 
         ### ERROR FRAME
         # Widgets
-        self.error_text = ttk.Label(self.ef, text="ERROR! PLEASE ENTER A\nVALID CITY AND/OR STATE!", font=("Impact", 60)) # label for error message
+        self.error_text = ttk.Label(self.ef, text="ERROR! PLEASE ENTER A\nVALID CITY AND/OR STATE!", font=("Impact", 60), background="red") # label for error message
         self.error_to_menu_button = ttk.Button(self.ef, text="Back", width=12, command=self.error_display_menu) # Button to return to the main menu
         # Packing
         self.error_text.grid(row=0, column=0, padx=10, pady=10) # packs error message label
