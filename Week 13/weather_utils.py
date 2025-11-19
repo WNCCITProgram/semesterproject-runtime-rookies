@@ -10,7 +10,8 @@
 API_KEY = "cbbcc7613091e76023dc824acdd2419c"
 
 # URL to access current weather OpenWeatherMap API
-URL = "https://api.openweathermap.org/data/2.5/weather"
+WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
+GEOMAP_URL = "http://api.openweathermap.org/geo/1.0/direct"
 
 import requests, json
 
@@ -18,14 +19,44 @@ class GetWeather():
     def __init__(self, city, state):
         self.city = city
         self.state = state
+        self.latitude = None
+        self.longitude = None
         self.weather_data = None
     
     def set_location(self, city, state):
         self.city = city
         self.state = state
     
+    def get_coordinates(self):
+        try:
+            query_string = {
+                "q": self.get_location(),        # Location for weather
+                "limit": 5,
+                "appid": "295ba02a2d7c1e90d464ea247bfad517"
+            }
+
+            response = requests.get(
+                GEOMAP_URL,
+                params=query_string
+            )
+
+            if response.status_code == 200:
+                self.location_data = response.json()[0]
+                self.latitude = self.location_data["lat"]
+                self.longitude = self.location_data["lon"]
+                print(f"[+] Coordinates found: {self.latitude}, {self.longitude}")
+            else:
+                print(f" Response code: {response.status_code}")
+                print(" You may have typed an invalid location.")
+                print(" Please try again.")
+
+            # Update latitude and longitude
+        
+        except:
+            print("[-] Sorry, there was a problem connecting")
+
     def get_location(self):
-        return f"{self.city}, {self.state}"
+        return f"{self.city}, {self.state}, US"
     
     def get_weather_data(self):
         try:
@@ -40,7 +71,7 @@ class GetWeather():
 
             # Get the API JSON data as a Python JSON object
             response = requests.get(
-                URL,
+                WEATHER_URL,
                 params=query_string
             )
             
@@ -68,3 +99,7 @@ class GetWeather():
             print("[-] Sorry, there was a problem connecting.")
             self.weather_data = None
 
+if __name__ == "__main__":
+    test = GetWeather("NE", "Scottsbluff")
+    test.get_coordinates()
+    print(test.latitude, test.longitude)

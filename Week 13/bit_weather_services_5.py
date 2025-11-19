@@ -33,7 +33,7 @@ class BitWeatherServices(Tk):
         
         # Labels
         # These don't need to be StringVars, but they are for future proofing
-        self.state_text = StringVar(value="Enter State Name: ") # text for state label
+        self.state_text = StringVar(value="Enter State Abbreviation: ") # text for state label
         self.city_text = StringVar(value="Enter City Name: ") # text for city label
         self.weather_title_text = StringVar(value="Weather for") # text for title in weather frame
 
@@ -61,7 +61,7 @@ class BitWeatherServices(Tk):
     def check_inputs(self):
         # Read Entries and store them as temporary variables
         city = self.city.get() # stores text in city entry
-        state = self.state.get() # stores text in state entry
+        state = self.state.get().strip().upper() # stores text in state entry
 
         # Check to make sure user did not leave the state or city blank
         if (city == "" or state == ""):
