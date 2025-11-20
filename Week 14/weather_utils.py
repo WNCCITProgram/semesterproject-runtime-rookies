@@ -13,6 +13,11 @@ API_KEY = "cbbcc7613091e76023dc824acdd2419c"
 WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 GEOMAP_URL = "http://api.openweathermap.org/geo/1.0/direct"
 
+STATES = ('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+           'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+             'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+               'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+                 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY')
 import requests, json
 
 class GetWeather():
