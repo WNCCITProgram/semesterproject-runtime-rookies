@@ -43,6 +43,8 @@ class BitWeatherServices(Tk):
         self.ef = Frame(self, width=600, height=400, bg=ERROR_BG_COLOR) # (error frame) frame to display error screen
 
         self.pack_frames()
+        self.display_menu() # display menu frame
+        self.mainloop() # starts tkinters loop so it works
 
     def display_weather(self):
         self.mf.pack_forget() # unpacks main frame
@@ -152,5 +154,3 @@ class BitWeatherServices(Tk):
 
 if __name__ == "__main__":
     weather = BitWeatherServices() # creates instance of class
-    weather.display_menu() # display menu frame
-    weather.mainloop() # starts tkinters loop so it works
