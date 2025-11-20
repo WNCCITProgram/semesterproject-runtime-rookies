@@ -17,15 +17,15 @@ import requests, json
 
 class GetWeather():
     def __init__(self, city, state):
-        self.city = city
-        self.state = state
+        self.set_location(city, state)
         self.latitude = None
         self.longitude = None
         self.weather_data = None
     
     def set_location(self, city, state):
+        if state.upper() in STATES:
+            self.state = state
         self.city = city
-        self.state = state
     
     def get_coordinates(self):
         try:
