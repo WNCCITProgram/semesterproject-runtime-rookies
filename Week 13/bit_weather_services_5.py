@@ -41,7 +41,9 @@ class BitWeatherServices(Tk):
         self.wf = Frame(self, width=600, height=400, bg=BG_COLOR) # (weather frame) frame to display weather results
         self.mf = Frame(self, width=600, height=400, bg=BG_COLOR) # (main frame) frame to display main menu
         self.ef = Frame(self, width=600, height=400, bg=ERROR_BG_COLOR) # (error frame) frame to display error screen
-        
+
+        self.pack_frames()
+
     def display_weather(self):
         self.mf.pack_forget() # unpacks main frame
         self.wf.pack(fill="both", expand=True) # packs weather frame
@@ -90,31 +92,7 @@ class BitWeatherServices(Tk):
         else:
             self.display_error() # send user to error screen
 
-    def pack_frames(self):
-        ### MENU FRAME
-        # images
-        self.title_img = PhotoImage(file="images/title.png") # grabs image for the title in menu
-        self.cloud_img = PhotoImage(file="images/weather_button.png") # grabs image for the button to get weather
-        self.wind_img = PhotoImage(file="images/wind.png") # grabs image for the wind
-
-        # Widgets
-        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600, background="gray") # label showing title
-        self.state_label = ttk.Label(self.mf, textvariable=self.state_text, font=("Brush Script MT", 24), background="gray") # label for state
-        self.city_label = ttk.Label(self.mf, textvariable=self.city_text, font=("Brush Script MT", 24), background="gray") # label for city
-        self.state_input = ttk.Entry(self.mf, textvariable=self.state) # entry for state
-        self.city_input = ttk.Entry(self.mf, textvariable=self.city) # entry for city
-        self.get_weather_button = ttk.Button(self.mf, command=self.check_inputs, image=self.cloud_img) # button with cloud image to get weather
-        # Packing
-        self.menu_title.grid(row=0, column=0, columnspan=2, sticky="ew", padx=8, pady=5) # packs title
-        self.state_label.grid(row=1, column=0, sticky="s", padx=20, pady=(20, 0)) # packs state label
-        self.state_input.grid(row=2, column=0, sticky="ew", padx=20) # packs state entry
-        self.city_label.grid(row=1, column=1, sticky="s", padx=20, pady=(20, 0)) # packs city label
-        self.city_input.grid(row=2, column=1, sticky="ew", padx=20) # packs city entry
-        self.get_weather_button.grid(row=3, column=0, columnspan=2, pady=30, ipadx=5, ipady=5) # packs button to check weather
-        # Configuring
-        self.mf.columnconfigure(0, weight=1) # ensures both columns expand equally
-        self.mf.columnconfigure(1, weight=1) # they keep the text for the input labels nice
-
+    def _pack_weather(self):
         ### WEATHER FRAME
         # Widgets
         self.weather_title = ttk.Label(self.wf, textvariable=self.weather_title_text, font=("Brush Script MT", 60), background="gray") # label for title
@@ -131,6 +109,32 @@ class BitWeatherServices(Tk):
         self.wind_speed_label.grid(row=4, column=1, padx=10, pady=10) # packs wind speed label
         self.wind.grid(row=4, column=0, sticky="e", padx=10, pady=10) # packs wind image
 
+    def _pack_menu(self):
+        ### MENU FRAME
+        # images
+        self.title_img = PhotoImage(file="images/title.png") # grabs image for the title in menu
+        self.cloud_img = PhotoImage(file="images/weather_button.png") # grabs image for the button to get weather
+        self.wind_img = PhotoImage(file="images/wind.png") # grabs image for the wind
+
+        # Widgets
+        self.menu_title = ttk.Label(self.mf, image=self.title_img, width=600, background="gray") # label showing title
+        self.city_label = ttk.Label(self.mf, textvariable=self.city_text, font=("Brush Script MT", 24), background="gray") # label for city
+        self.state_label = ttk.Label(self.mf, textvariable=self.state_text, font=("Brush Script MT", 24), background="gray") # label for state
+        self.city_input = ttk.Entry(self.mf, textvariable=self.city, font=("Helvetica", 36)) # entry for city
+        self.state_input = ttk.Entry(self.mf, textvariable=self.state, font=("Helvetica", 36)) # entry for state
+        self.get_weather_button = ttk.Button(self.mf, command=self.check_inputs, image=self.cloud_img) # button with cloud image to get weather
+        # Packing
+        self.menu_title.grid(row=0, column=0, columnspan=2, sticky="ew", padx=8, pady=5) # packs title
+        self.city_label.grid(row=1, column=0, sticky="s", padx=20, pady=(20, 0)) # packs city label
+        self.city_input.grid(row=2, column=0, sticky="ew", padx=20) # packs city entry
+        self.state_label.grid(row=1, column=1, sticky="s", padx=20, pady=(20, 0)) # packs state label
+        self.state_input.grid(row=2, column=1, sticky="ew", padx=20) # packs state entry
+        self.get_weather_button.grid(row=3, column=0, columnspan=2, pady=30, ipadx=5, ipady=5) # packs button to check weather
+        # Configuring
+        self.mf.columnconfigure(0, weight=1) # ensures both columns expand equally
+        self.mf.columnconfigure(1, weight=1) # they keep the text for the input labels nice
+
+    def _pack_error(self):
         ### ERROR FRAME
         # Widgets
         self.error_text = ttk.Label(self.ef, text="ERROR! PLEASE ENTER A\nVALID CITY AND/OR STATE!", font=("Impact", 60), background="red") # label for error message
@@ -139,10 +143,14 @@ class BitWeatherServices(Tk):
         self.error_text.grid(row=0, column=0, padx=10, pady=10) # packs error message label
         self.error_to_menu_button.grid(row=1, column=0, padx=10, pady=10) # packs button to return to menu
 
+    def pack_frames(self):
+        self._pack_menu()
+        self._pack_error()
+        self._pack_weather()
+
 
 
 if __name__ == "__main__":
     weather = BitWeatherServices() # creates instance of class
-    weather.pack_frames() # packs frames (for the main and weather windows)
     weather.display_menu() # display menu frame
     weather.mainloop() # starts tkinters loop so it works
