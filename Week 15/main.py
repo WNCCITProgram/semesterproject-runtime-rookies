@@ -5,7 +5,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.properties import ObjectProperty, StringProperty
 from weather_utils import *
-
+from kivy.core.window import Window
 # defines functions and layout
 class MenuScreen(Screen):
     pass
@@ -26,7 +26,15 @@ class BitWeatherServicesApp(App):
         sm.add_widget(MenuScreen(name='menu'))
         sm.add_widget(WeatherScreen(name='weather'))
         sm.add_widget(ErrorScreen(name='error'))
+        Window.bind(on_keyoard=self._on_keyboard)
         return sm
+    def _on_keyboard(self, instance, key, scancode, codepoint, modifiers):
+        if key == 13:
+            print("Enter key pressed globally!")
+            self.check_inputs
+            return True
+        return False
+    
     def check_inputs(self, city, state):
         state = state.strip().upper()
         if not city or not state:
