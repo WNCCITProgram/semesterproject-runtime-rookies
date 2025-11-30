@@ -30,7 +30,7 @@ class BitWeatherServicesApp(App):
         return sm
     def on_keyboard(self, window, keycode, scancode, input_unicode, modifiers):
         if keycode == 13:
-            self.check_inputs()
+            self.check_inputs(city=self.root.get_screen('menu').ids.city_input.text, state=self.root.get_screen('menu').ids.state_input.text)
             print("Enter!")
             return True
         else:
