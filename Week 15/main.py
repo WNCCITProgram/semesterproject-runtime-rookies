@@ -1,6 +1,7 @@
 import kivy
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
+from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.properties import ObjectProperty, StringProperty
@@ -22,6 +23,7 @@ class ErrorScreen(Screen):
 class BitWeatherServicesApp(App):
     def build(self):
         sm = ScreenManager()
+        Window.bind(on_keyboard=self.on_keyboard)
         Window.bind(on_keyboard=self.on_keyboard)
         sm.add_widget(MenuScreen(name='menu'))
         sm.add_widget(WeatherScreen(name='weather'))
