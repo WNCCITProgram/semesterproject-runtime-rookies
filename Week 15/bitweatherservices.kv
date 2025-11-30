@@ -36,13 +36,37 @@
 
                 TextInput:
                     id: city_input
+                    multiline: False
                     hint_text: 'e.g Scottsbluff'
                     font_size: 24
+                    foreground_color: 0, 0, 0, 1
+                    background_color: 0, 0, 0, 0
+                    padding: [30, 30]
+                    canvas.after:
+                        Color:
+                            rgba: 0.2, 0.4, 0.2, 0.3
+                        RoundedRectangle:
+                            pos: (self.x + 20, self.y + 10)
+                            size: (self.width - 40, self.height - 20)
+                            radius: [15]  # adjust for roundness
+
+
 
                 TextInput:
                     id: state_input
+                    multiline: False
                     hint_text: 'e.g. NE'
                     font_size: 24
+                    foreground_color: 0, 0, 0, 1
+                    background_color: 0, 0, 0, 0
+                    padding: [30, 30]
+                    canvas.after:
+                        Color:
+                            rgba: 0.2, 0.4, 0.2, 0.3
+                        RoundedRectangle:
+                            pos: (self.x + 20, self.y + 10)
+                            size: (self.width - 40, self.height - 20)
+                            radius: [15]  # adjust for roundness
             
             AnchorLayout:
                 anchor_x: 'center'

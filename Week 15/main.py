@@ -1,6 +1,7 @@
 import kivy
 kivy.require('1.0.5')
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.app import App
 from kivy.properties import ObjectProperty, StringProperty
@@ -22,11 +23,18 @@ class ErrorScreen(Screen):
 class BitWeatherServicesApp(App):
     def build(self):
         sm = ScreenManager()
+        Window.bind(on_keyboard=self.on_keyboard)
         sm.add_widget(MenuScreen(name='menu'))
         sm.add_widget(WeatherScreen(name='weather'))
         sm.add_widget(ErrorScreen(name='error'))
         return sm
-    
+    def on_keyboard(self, window, keycode, scancode, input_unicode, modifiers):
+        if keycode == 13:
+            self.check_inputs(city=self.root.get_screen('menu').ids.city_input.text, state=self.root.get_screen('menu').ids.state_input.text)
+            print("Enter!")
+            return True
+        else:
+            return False
     def check_inputs(self, city, state):
         state = state.strip().upper()
         if not city or not state:
