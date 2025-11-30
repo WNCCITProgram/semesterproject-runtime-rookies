@@ -1,5 +1,4 @@
 import kivy
-kivy.require('1.0.5')
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -52,7 +51,7 @@ class BitWeatherServicesApp(App):
             weather_screen.wind_speed = f"The wind is traveling {api_handler.wind_speed} MPH"
             self.root.current = 'weather'
         else:
-            self.root.current = 'weather'
+            self.root.current = 'error'
 
 
 
