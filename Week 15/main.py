@@ -44,7 +44,7 @@ class BitWeatherServicesApp(App):
             weather_screen.wind_speed = f"The wind is traveling {api_handler.wind_speed} MPH"
             self.root.current = 'weather'
         else:
-            self.root.current = 'error'
+            self.root.current = 'weather'
 
 
 

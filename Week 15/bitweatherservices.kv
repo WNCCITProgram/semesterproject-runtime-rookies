@@ -1,0 +1,104 @@
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 40
+        spacing: 20
+
+        Image:
+            source: 'images/title.png'
+            size_hint_y: None
+            height: 100
+
+        GridLayout:
+            rows: 2
+            cols: 2
+            size_hint_y: None
+            height: 200
+
+            Label:
+                text: 'Enter City Name'
+                font_size: 36
+
+            Label:
+                text: 'Enter State Abbreviation'
+                font_size: 36
+
+            TextInput:
+                id: city_input
+                hint_text: 'e.g Scottsbluff'
+                font_size: 24
+
+            TextInput:
+                id: state_input
+                hint_text: 'e.g. NE'
+                font_size: 24
+        
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            size_hint_y: None
+            height: 200
+
+            Button:
+                background_normal: 'images/weather_button.png'
+                size_hint: 0.4, .85
+                on_press: app.check_inputs(city_input.text, state_input.text)
+        Widget:
+
+<WeatherScreen>:
+    FloatLayout:
+        orientation: 'vertical'
+        padding: 40
+        spacing: 20
+
+        Image:
+            source: 'images/weather_background.png'
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: 1, 1
+            pos_hint: {"x": 0, "y": 0}
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 40
+            spacing: 20
+            size_hint: 1, 1
+            pos_hint: {"x": 0, "y": 0}
+
+            Label:
+                text: root.title
+                font_size: 72
+
+            Label:
+                text: root.conditions
+                font_size: 36
+
+            Label:
+                text: root.temperature
+                font_size: 36
+                
+            Label:
+                text: root.wind_speed
+                font_size: 36
+
+            Button:
+                text: 'Back'
+                size_hint_y: None
+                height: 50
+                on_press: app.root.current = 'menu'
+
+<ErrorScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 40
+        spacing: 20
+
+        Label:
+            text: "Error"
+
+        Button:
+            text: 'Back'
+            size_hint_y: None
+            height: 50
+            on_press: app.root.current = 'menu'
