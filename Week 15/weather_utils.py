@@ -13,25 +13,27 @@ API_KEY = "cbbcc7613091e76023dc824acdd2419c"
 WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 GEOMAP_URL = "http://api.openweathermap.org/geo/1.0/direct"
 
+# List of state abreviations for input
 STATES = ('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
            'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
              'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
                'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
                  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY')
+# Imports for API use
 import requests, json
-
+# Class for utils
 class GetWeather():
     def __init__(self, city, state):
         self.set_location(city, state)
         self.latitude = None
         self.longitude = None
         self.weather_data = None
-    
+    # Set location based on user input
     def set_location(self, city, state):
         if state.upper() in STATES:
             self.state = state
         self.city = city
-    
+    # Get coordinates base on the location the user inputted
     def get_coordinates(self):
         try:
             query_string = {
@@ -59,10 +61,10 @@ class GetWeather():
         
         except:
             print("[-] Sorry, there was a problem connecting")
-
+    # get the location from set_location function
     def get_location(self):
         return f"{self.city}, {self.state}, US"
-    
+    # Get weather stuff from API
     def get_weather_data(self):
         try:
 
