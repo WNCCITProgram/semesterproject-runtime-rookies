@@ -24,7 +24,6 @@ class BitWeatherServicesApp(App):
     def build(self):
         sm = ScreenManager()
         Window.bind(on_keyboard=self.on_keyboard)
-        Window.bind(on_keyboard=self.on_keyboard)
         sm.add_widget(MenuScreen(name='menu'))
         sm.add_widget(WeatherScreen(name='weather'))
         sm.add_widget(ErrorScreen(name='error'))
