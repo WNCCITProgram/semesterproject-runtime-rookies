@@ -1,4 +1,6 @@
+# This defines widgets for the menu screen
 <MenuScreen>:
+    # Everything is under a float layout so we can have the image in the background
     FloatLayout:
         
         Image:
@@ -80,7 +82,9 @@
                     on_press: app.check_inputs(city_input.text, state_input.text)
             Widget:
 
+# This defines widgets for the weather screen
 <WeatherScreen>:
+    # Everything is under a float layout again so we can have a background image
     FloatLayout:
 
         Image:
@@ -124,7 +128,9 @@
                 height: 50
                 on_press: app.root.current = 'menu'
 
+# creates widgets for error screen class
 <ErrorScreen>
+    # the error screen is just a box layout with a label and a back button
     BoxLayout:
         orientation: 'vertical'
         padding: 40
